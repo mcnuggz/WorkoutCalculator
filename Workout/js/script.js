@@ -1,36 +1,4 @@
 "use strict"
-var askName = prompt("Please enter your name: ");
-var askWeight = prompt("Enter your weight: ");
-
-var obj = letterFrequency(askName);
-
-var table = document.createElement("table");
-Object.keys(obj).forEach(function(key){
-    var tr = document.createElement("tr");
-
-    var tdKey = document.createElement("td");
-    var textKey = document.createTextNode(key);
-    tdKey.appendChild(textKey);
-
-    var tdValue = document.createElement("td");
-    var textValue = document.createTextNode(obj[key]);
-    tdValue.appendChild(textValue);
-    tr.appendChild(tdKey);
-    tr.appendChild(tdValue);
-    table.appendChild(tr);
-});
-document.getElementById("letterTable").appendChild(table);
-
-function letterFrequency(text){
- var count = {};
- text.split('').filter(function(s) {
-   return s.match(/[a-z]/i);
- }).forEach(function(s) {
-   s = s.toUpperCase();
-   count[s] = count[s] ? count[s]+1 : 1;
- });
- return count;
-}
 
 var exercise ={
   "j": [8.0, 50],
@@ -40,7 +8,8 @@ var exercise ={
   "b": [8.0, 30],
   "a": [3.0, 20],
   "w": [2.0, 120]
-}
+};
+
 var exerciseDict = {
   "A": [exercise["j"], 50, "Jumping Jacks"],
   "B": [exercise["c"], 20, "Crunches"],
@@ -70,11 +39,46 @@ var exerciseDict = {
   "Z": [exercise["p"], 20, "Pushups"]
 };
 
-function calculateMets(value){
-    var time = value[1] / value[0][1];
-    var mets = value[0][0] * time;
-    return mets;
+var askName = prompt("Please enter your name: ");
+var askWeight = prompt("Enter your weight: ");
+var obj = letterFrequency(askName);
+
+var table = document.createElement("table");
+Object.keys(obj).forEach(function(key){
+    var tr = document.createElement("tr");
+
+    var tdKey = document.createElement("td");
+    var textKey = document.createTextNode(key);
+    tdKey.appendChild(textKey);
+
+    var tdValue = document.createElement("td");
+    var textValue = document.createTextNode(obj[key]);
+    tdValue.appendChild(textValue);
+    tr.appendChild(tdKey);
+    tr.appendChild(tdValue);
+    table.appendChild(tr);
+});
+
+document.getElementById("letterTable").appendChild(table);
+
+var routineList = document.createElement("list");
+Object.keys(obj).forEach(function(key){
+
+});
+
+document.getElementById("routine").appendChild(routineList);
+
+function letterFrequency(text){
+ var count = {};
+ text.split('').filter(function(s) {
+   return s.match(/[a-z]/i);
+ }).forEach(function(s) {
+   s = s.toUpperCase();
+   count[s] = count[s] ? count[s]+1 : 1;
+ });
+ return count;
 }
+
 function calculateBurnedCalories(weight, letter){
     var letterObject = letter;
     var mets = calculateMets(letterObject);
@@ -84,6 +88,6 @@ function calculateBurnedCalories(weight, letter){
 
 function displayRoutine(){
     var getCount = letterFrequency(askName);
-    getCount.
+
     document.getElementById("routine");
 }
