@@ -22,11 +22,11 @@ function RoutineTable(name, weight, reps){
     this.displayRoutine = [];
     for (var i = 0; i < name.length; i++) {
         var tableName = exercises.exerciseDict[upperName[i]]['name'];
-        var tableReps = exercises.exerciseDict[upperName[i]]['repetition'] * reps;
+        var tableReps = exercises.exerciseDict[upperName[i]]['repetitions'] * reps;
         var mets = exercises.exerciseDict[upperName[i]]['mets'];
         var duration = exercises.exerciseDict[upperName[i]]['duration'];
         var burnedCalories = (mets * 3.5 * weight * (duration/60.0).toFixed(2));
-        this.displayRoutine.push({Exercises: tableName, Repetitions: tableReps, Calories: burnedCalories});
+        this.displayRoutine.push({Exercises: tableName, Reps: tableReps, Calories: burnedCalories});
     }
 }
 

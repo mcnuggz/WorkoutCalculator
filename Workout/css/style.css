@@ -27,5 +27,5 @@ letter-spacing: 1px;
 text-transform: uppercase;
 }
 .displayExercise td{
-    padding-right: 30px;
+    padding-right: 70px !important;
 }
