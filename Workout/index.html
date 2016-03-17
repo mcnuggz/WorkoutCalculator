@@ -7,9 +7,6 @@
     <title>Workout Calculator</title>
     <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="css/style.css" rel="stylesheet" type="text/css" >
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script type="text/javascript" src="js/boostrap.min.js"></script>
-    <script type="text/javascript" src="js/script.js"></script>
 </head>
 
 <body>
@@ -22,11 +19,11 @@
                 <div class="row container">
                     <form class="form-inline userForm">
                         <label>Enter Name:</label>
-                        <input type="text" id="name" class="form-control" />
+                        <input type="text" name= "name" id="name" class="form-control" />
                         <label>Enter Weight:</label>
-                        <input type="text" id="weight" class="form-control" />
+                        <input type="text" name="weight" id="weight" class="form-control" />
                         <label>Enter Repetitions:</label>
-                        <input type="text" id="repetitions" class="form-control" />
+                        <input type="text" name= "reps" id="reps" class="form-control" />
                     </form>
                     <div class="col-md-11">
                         <button id="printRoutine" class="btn btn-primary btn-block">Get Routine</button>
@@ -132,5 +129,8 @@
                 </div>
             </div>
         </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script type="text/javascript" src="js/boostrap.min.js"></script>
+        <script type="text/javascript" src="js/script.js"></script>
     </body>
     </html>

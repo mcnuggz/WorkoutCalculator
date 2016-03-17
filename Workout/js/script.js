@@ -2,20 +2,22 @@
 
 $(function(){
     $("#printRoutine").click(function(){
-        getWorkout($("#name").val(), $("#weight").val(), $("repetitions").val())
+        getWorkout($("#name").val(), $("#weight").val(), $("#reps").val())
     });
 });
 
 var getWorkout = function(name, weight, reps){
-        var exercises = new Exercises();
         var exTable = new RoutineTable(name, weight, reps);
-        createRoutineTable(RoutineTable.displayRoutine);
-        var gatherTotals = new GetTotals(RoutineTable.displayRoutine);
-        createRoutineTable(gatherTotals.totals);
+        createRoutineTable(exTable.displayRoutine);
+        var gatherTotals = new GetTotals(exTable.displayRoutine);
+        createRoutineTable(gatherTotals.totally);
+        var calculateCalories = new CalculateCalories(calculateCalories.totalCals);
+        createRoutineTable(calculateCalories.totalCals);
 }
 
 function RoutineTable(name, weight, reps){
     var exercises = new Exercises();
+    name = name.replace(/\s+/g, '');
     var upperName = name.toUpperCase();
     this.displayRoutine = [];
     for (var i = 0; i < name.length; i++) {
@@ -23,7 +25,7 @@ function RoutineTable(name, weight, reps){
         var tableReps = exercises.exerciseDict[upperName[i]]['repetition'] * reps;
         var mets = exercises.exerciseDict[upperName[i]]['mets'];
         var duration = exercises.exerciseDict[upperName[i]]['duration'];
-        var burnedCalories = mets * 0.0175 * weight * (duration/60.0);
+        var burnedCalories = Number(mets * 3.5 * weight * (duration/60.0).toFixed(2));
         this.displayRoutine.push({Exercises: tableName, Repetitions: tableReps, Calories: burnedCalories});
     }
 }
@@ -48,44 +50,70 @@ function createRoutineTable(content){
 }
 
 function GetTotals(table){
-    this.totals = table;
-    for (var i = 0; i < this.totals.length; i++) {
-        for (var j = 0; j < this.totals.length; j++) {
-            if (i !== j && this.totals[i]['Exercises'] === this.totals[j]['Exercises']) {
-                this.totals[i]["Repetitions"] === this.totals[j]["Repetitions"];
-                this.totals[i]['Calories'] += this.totals[j]['Calories'];
-                this.totals.splice(j, 1);
+    var total = new Totals();
+    this.data = total.totals;
+    this.totally = [];
+    for (var i = 0; i < table.length; i++) {
+        for (var j = 0; j < this.data.length; j++) {
+            if (this.data[j].Exercise === table[i].Exercise) {
+                this.data[j].Repetitions += table[i].Repetitions;
+                this.data[j].Calories += table[i].Calories.toFixed(2);
             }
         }
     }
+    for(let total of this.data){
+        if(total.Repetitions !== 0){
+            this.totals.push(total);
+        }
+    }
 }
+
+function CalculateCalories(totals){
+    this.totalCals = [{"Total Burned Calories": 0}]
+    for (let total of totals) {
+        this.totalCals[0]["Total Burned Calories"] += total.Cals.toFixed(2);
+    }
+}
+
+function Totals(){
+    this.totals = [
+        {Exercise: 'Jumping Jacks', Repetitions: 0, Calories: 0},
+        {Exercise: 'Crunches', Repetitions: 0, Calories: 0},
+        {Exercise: 'Squats', Repetitions: 0, Calories: 0},
+        {Exercise: 'Pushups', Repetitions: 0, Calories: 0},
+        {Exercise: 'Wall Sit', Repetitions: 0, Calories: 0},
+        {Exercise: 'Burpees', Repetitions: 0, Calories: 0},
+        {Exercise: 'Arm Circles', Repetitions: 0, Calories: 0}
+    ];
+}
+
 function Exercises(){
     this.exerciseDict = {
-        A: {name: "Jumping Jacks", repititions: 50, duration: 1, mets: 8},
-        B: {name: "Crunches", repititions: 20, duration: 1, mets: 4},
-        C: {name: "Squats", repititions: 30, duration: 3, mets: 6},
-        D: {name: "Pushups", repititions: 15, duration: 1, mets: 4},
-        E: {name: "Wall Sit", repititions: 60, duration: 1, mets: 2},
-        F: {name: "Burpees", repititions: 10, duration: 3, mets: 8},
-        G: {name: "Arm Circles", repititions: 20, duration: 1, mets: 2},
-        H: {name: "Squats", repititions: 20, duration: 3, mets: 6},
-        I: {name: "Jumping Jacks", repititions: 30, duration: 1, mets: 8},
-        J: {name: "Crunches", repititions: 15, duration: 1, mets: 4},
-        K: {name: "Pushups", repititions: 10, duration: 1, mets: 4},
-        L: {name: "Wall Sit", repititions: 120, duration: 1, mets: 2},
-        M: {name: "Burpees", repititions: 20, duration: 3, mets: 8},
-        N: {name: "Burpees", repititions: 25, duration: 3, mets: 8},
-        O: {name: "Jumping Jacks", repititions: 25, duration: 1, mets: 8},
-        P: {name: "Arm Circles", repititions:15, duration: 1, mets: 2},
-        Q: {name: "Crunches", repititions: 30, duration: 1, mets: 4},
-        R: {name: "Pushups", repititions: 15, duration: 1, mets: 4},
-        S: {name: "Burpees", repititions: 30, duration: 3, mets: 8},
-        T: {name: "Squats", repititions:  15, duration: 3, mets: 6},
-        U: {name: "Arm Circles", repititions: 30, duration: 1, mets: 2},
-        V: {name: "Wall Sit", repititions: 3, duration: 1, mets: 2},
-        W: {name: "Burpees", repititions: 20, duration: 3, mets: 8},
-        X: {name: "Jumping Jacks", repititions: 60, duration: 1, mets: 8},
-        Y: {name: "Crunches", repititions: 10, duration: 1, mets: 4},
-        Z: {name: "Pushups", repititions: 20, duration: 1, mets: 4},
+        A: {name: "Jumping Jacks", repetitions: 50, duration: 1, mets: 8},
+        B: {name: "Crunches", repetitions: 20, duration: 1, mets: 4},
+        C: {name: "Squats", repetitions: 30, duration: 3, mets: 6},
+        D: {name: "Pushups", repetitions: 15, duration: 1, mets: 4},
+        E: {name: "Wall Sit", repetitions: 60, duration: 1, mets: 2},
+        F: {name: "Burpees", repetitions: 10, duration: 3, mets: 8},
+        G: {name: "Arm Circles", repetitions: 20, duration: 1, mets: 2},
+        H: {name: "Squats", repetitions: 20, duration: 3, mets: 6},
+        I: {name: "Jumping Jacks", repetitions: 30, duration: 1, mets: 8},
+        J: {name: "Crunches", repetitions: 15, duration: 1, mets: 4},
+        K: {name: "Pushups", repetitions: 10, duration: 1, mets: 4},
+        L: {name: "Wall Sit", repetitions: 120, duration: 1, mets: 2},
+        M: {name: "Burpees", repetitions: 20, duration: 3, mets: 8},
+        N: {name: "Burpees", repetitions: 25, duration: 3, mets: 8},
+        O: {name: "Jumping Jacks", repetitions: 25, duration: 1, mets: 8},
+        P: {name: "Arm Circles", repetitions:15, duration: 1, mets: 2},
+        Q: {name: "Crunches", repetitions: 30, duration: 1, mets: 4},
+        R: {name: "Pushups", repetitions: 15, duration: 1, mets: 4},
+        S: {name: "Burpees", repetitions: 30, duration: 3, mets: 8},
+        T: {name: "Squats", repetitions:  15, duration: 3, mets: 6},
+        U: {name: "Arm Circles", repetitions: 30, duration: 1, mets: 2},
+        V: {name: "Wall Sit", repetitions: 3, duration: 1, mets: 2},
+        W: {name: "Burpees", repetitions: 20, duration: 3, mets: 8},
+        X: {name: "Jumping Jacks", repetitions: 60, duration: 1, mets: 8},
+        Y: {name: "Crunches", repetitions: 10, duration: 1, mets: 4},
+        Z: {name: "Pushups", repetitions: 20, duration: 1, mets: 4},
      };
 }
