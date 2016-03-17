@@ -25,7 +25,7 @@ function RoutineTable(name, weight, reps){
         var tableReps = exercises.exerciseDict[upperName[i]]['repetition'] * reps;
         var mets = exercises.exerciseDict[upperName[i]]['mets'];
         var duration = exercises.exerciseDict[upperName[i]]['duration'];
-        var burnedCalories = Number(mets * 3.5 * weight * (duration/60.0).toFixed(2));
+        var burnedCalories = (mets * 3.5 * weight * (duration/60.0).toFixed(2));
         this.displayRoutine.push({Exercises: tableName, Repetitions: tableReps, Calories: burnedCalories});
     }
 }
@@ -34,10 +34,10 @@ function createRoutineTable(content){
     var rows = content.length;
     var headers = Object.keys(content[0]);
     var cols = headers.length;
-    var table = $("<table />").addClass("table table-stripped table-condensed");
+    var table = $("<table />");
     for (var r = -1; r < rows; r++) {
-        var row = $("<tr />");
-        for (var c = 0; c < c; i++) {
+        var row = $("<tr />")
+        for (var c = 0; c < cols; c++) {
             if (r == -1) {
                 row.append($("<th/>").text(headers[c]));
             } else{
@@ -47,6 +47,7 @@ function createRoutineTable(content){
         table.append(row);
     }
     $("#routine").append(table);
+
 }
 
 function GetTotals(table){
