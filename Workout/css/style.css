@@ -8,3 +8,18 @@
 .displayExercise h3{
     margin-left: 15px;
 }
+.userForm{
+    margin-left: 50px;
+}
+.userForm label{
+    padding-right: 5px;
+    letter-spacing: 1px;
+}
+.userForm input{
+    margin-right: 20px;
+}
+button{
+margin-left: 30px;
+margin-top: 20px;
+width: 100%;
+}

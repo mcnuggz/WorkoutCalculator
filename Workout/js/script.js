@@ -1,81 +1,30 @@
 "use strict"
 
-function Exercises(){
-    this.exerciseDict = {
-        A: {repetition: 50, name: " Jumping Jacks", duration: 1, mets: 8},
-        B: {repetition: 20, name: " Crunches", duration: 1, mets: 4},
-        C: {repetition: 30, name: " Squats", duration: 3, mets: 6},
-        D: {repetition: 15, name: " Pushups", duration: 1, mets: 4},
-        E: {repetition: 1,  name: " min Wall Sit", duration: 1, mets: 2},
-        F: {repetition: 10, name: " Burpees", duration: 3, mets: 8},
-        G: {repetition: 20, name: " sec Arm Circles", duration: 1, mets: 2},
-        H: {repetition: 20, name: " Squats", duration: 1, mets: 6},
-        I: {repetition: 30, name: " Jumping Jacks", duration: 1, mets: 8},
-        J: {repetition: 15, name: " 15 Crunches", duration: 1, mets: 4},
-        K: {repetition: 10, name: " Pushups", duration: 1, mets: 4},
-        L: {repetition: 2,  name: " min Wall Sit", duration: 1, mets: 2},
-        M: {repetition: 20, name: " Burpees", duration: 3, mets: 8},
-        N: {repetition: 25, name: " Burpees", duration: 3, mets: 8},
-        O: {repetition: 40, name: " Jumping Jacks", duration: 1, mets: 8},
-        P: {repetition: 15, name: " sec Arm Circles", duration: 1, mets: 2},
-        Q: {repetition: 30, name: " Crunches", duration: 1, mets: 4},
-        R: {repetition: 15, name: " Pushups", duration: 1, mets: 4},
-        S: {repetition: 30, name: " Burpees", duration: 3, mets: 8},
-        T: {repetition: 15, name: " Squats", duration: 3, mets: 6 },
-        U: {repetition: 30, name: " sec Arm Circles", duration: 1, mets: 2},
-        V: {repetition: 3,  name: " min Wall Sit", duration: 1, mets: 2},
-        W: {repetition: 20, name: " Burpees", duration: 3, mets: 8},
-        X: {repetition: 60, name: " Jumping Jacks", duration: 1, mets: 8},
-        Y: {repetition: 10, name: " Crunches", duration: 1, mets: 4},
-        Z: {repetition: 20, name: " Pushups", duration: 1, mets: 4}
-    };
-}
-
-var askName = prompt("Please enter your name: ");
-var askWeight = prompt("Enter your weight: ");
-var askReps = prompt("How many times would you like to run through this routine?");
-var obj = letterFrequency(askName);
-
-var table = document.createElement("table");
-Object.keys(obj).forEach(function(key){
-    var tr = document.createElement("tr");
-
-    var tdKey = document.createElement("td");
-    var textKey = document.createTextNode(key);
-    tdKey.appendChild(textKey);
-
-    var tdValue = document.createElement("td");
-    var textValue = document.createTextNode(obj[key]);
-    tdValue.appendChild(textValue);
-
-    tr.appendChild(tdKey);
-    tr.appendChild(tdValue);
-    table.appendChild(tr);
-});
-document.getElementById("letterTable").appendChild(table);
-
-function letterFrequency(text){
-    var count = {};
-    text.split('').filter(function(s) {
-        return s.match(/[a-z]/i);
-    }).forEach(function(s) {
-        s = s.toUpperCase();
-        count[s] = count[s] ? count[s]+1 : 1;
+$(function(){
+    $("#printRoutine").click(function(){
+        getWorkout($("#name").val(), $("#weight").val(), $("repetitions").val())
     });
-    return count;
+});
+
+var getWorkout = function(name, weight, reps){
+        var exercises = new Exercises();
+        var exTable = new RoutineTable(name, weight, reps);
+        createRoutineTable(RoutineTable.displayRoutine);
+        var gatherTotals = new GetTotals(RoutineTable.displayRoutine);
+        createRoutineTable(gatherTotals.totals);
 }
 
 function RoutineTable(name, weight, reps){
     var exercises = new Exercises();
+    var upperName = name.toUpperCase();
     this.displayRoutine = [];
     for (var i = 0; i < name.length; i++) {
-        var tableName = exercises.exerciseDict[name[i]]['name'];
-        var tableReps = exercises.exerciseDict[name[i]]['repetition'] * askReps;
-        var mets = exercises.exerciseDict[name[i]]['mets'];
-        var duration = exercises.exerciseDict[name[i]]['duration'];
+        var tableName = exercises.exerciseDict[upperName[i]]['name'];
+        var tableReps = exercises.exerciseDict[upperName[i]]['repetition'] * reps;
+        var mets = exercises.exerciseDict[upperName[i]]['mets'];
+        var duration = exercises.exerciseDict[upperName[i]]['duration'];
         var burnedCalories = mets * 0.0175 * weight * (duration/60.0);
-        this.displayRoutine.push({Exercises: tableName, Repetitions; tableReps});
-        document.getElementById("#caloriesBurned").innerHTML = burnedCalories;
+        this.displayRoutine.push({Exercises: tableName, Repetitions: tableReps, Calories: burnedCalories});
     }
 }
 
@@ -109,4 +58,34 @@ function GetTotals(table){
             }
         }
     }
+}
+function Exercises(){
+    this.exerciseDict = {
+        A: {name: "Jumping Jacks", repititions: 50, duration: 1, mets: 8},
+        B: {name: "Crunches", repititions: 20, duration: 1, mets: 4},
+        C: {name: "Squats", repititions: 30, duration: 3, mets: 6},
+        D: {name: "Pushups", repititions: 15, duration: 1, mets: 4},
+        E: {name: "Wall Sit", repititions: 60, duration: 1, mets: 2},
+        F: {name: "Burpees", repititions: 10, duration: 3, mets: 8},
+        G: {name: "Arm Circles", repititions: 20, duration: 1, mets: 2},
+        H: {name: "Squats", repititions: 20, duration: 3, mets: 6},
+        I: {name: "Jumping Jacks", repititions: 30, duration: 1, mets: 8},
+        J: {name: "Crunches", repititions: 15, duration: 1, mets: 4},
+        K: {name: "Pushups", repititions: 10, duration: 1, mets: 4},
+        L: {name: "Wall Sit", repititions: 120, duration: 1, mets: 2},
+        M: {name: "Burpees", repititions: 20, duration: 3, mets: 8},
+        N: {name: "Burpees", repititions: 25, duration: 3, mets: 8},
+        O: {name: "Jumping Jacks", repititions: 25, duration: 1, mets: 8},
+        P: {name: "Arm Circles", repititions:15, duration: 1, mets: 2},
+        Q: {name: "Crunches", repititions: 30, duration: 1, mets: 4},
+        R: {name: "Pushups", repititions: 15, duration: 1, mets: 4},
+        S: {name: "Burpees", repititions: 30, duration: 3, mets: 8},
+        T: {name: "Squats", repititions:  15, duration: 3, mets: 6},
+        U: {name: "Arm Circles", repititions: 30, duration: 1, mets: 2},
+        V: {name: "Wall Sit", repititions: 3, duration: 1, mets: 2},
+        W: {name: "Burpees", repititions: 20, duration: 3, mets: 8},
+        X: {name: "Jumping Jacks", repititions: 60, duration: 1, mets: 8},
+        Y: {name: "Crunches", repititions: 10, duration: 1, mets: 4},
+        Z: {name: "Pushups", repititions: 20, duration: 1, mets: 4},
+     };
 }
