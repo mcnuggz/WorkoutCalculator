@@ -1,46 +1,39 @@
 "use strict"
 
-var exercise ={
-  "j": [8.0, 50],
-  "c": [4.0, 20],
-  "s": [6.0, 90],
-  "p": [4.0, 15],
-  "b": [8.0, 30],
-  "a": [3.0, 20],
-  "w": [2.0, 120]
-};
-
-var exerciseDict = {
-  "A": [exercise["j"], 50, "Jumping Jacks"],
-  "B": [exercise["c"], 20, "Crunches"],
-  "C": [exercise["s"], 30, "Squats"],
-  "D": [exercise["p"], 15, "Pushups"],
-  "E": [exercise["w"], 1, "min Wall Sit"],
-  "F": [exercise["b"], 10, "Burpees"],
-  "G": [exercise["a"], 20, "sec Arm Circles"],
-  "H": [exercise["s"], 20, "Squats"],
-  "I": [exercise["j"], 30, "Jumping Jacks"],
-  "J": [exercise["c"], 15, "15 Crunches"],
-  "K": [exercise["p"], 10, "Pushups"],
-  "L": [exercise["w"], 2, "min Wall Sit"],
-  "M": [exercise["b"], 20, "Burpees"],
-  "N": [exercise["b"], 25, "Burpees"],
-  "O": [exercise["j"], 40, "Jumping Jacks"],
-  "P": [exercise["a"], 15, "sec Arm Circles"],
-  "Q": [exercise["c"], 30, "Crunches"],
-  "R": [exercise["p"], 15, "Pushups"],
-  "S": [exercise["b"], 30, "Burpees"],
-  "T": [exercise["s"], 15, "Squats"],
-  "U": [exercise["a"], 30, "sec Arm Circles"],
-  "V": [exercise["w"], 3, "min Wall Sit"],
-  "W": [exercise["b"], 20, "Burpees"],
-  "X": [exercise["j"], 60, "Jumping Jacks"],
-  "Y": [exercise["c"], 10, "Crunches"],
-  "Z": [exercise["p"], 20, "Pushups"]
-};
+function Exercises(){
+    this.exerciseDict = {
+        A: {repetition: 50, name: " Jumping Jacks", duration: 1, mets: 8},
+        B: {repetition: 20, name: " Crunches", duration: 1, mets: 4},
+        C: {repetition: 30, name: " Squats", duration: 3, mets: 6},
+        D: {repetition: 15, name: " Pushups", duration: 1, mets: 4},
+        E: {repetition: 1,  name: " min Wall Sit", duration: 1, mets: 2},
+        F: {repetition: 10, name: " Burpees", duration: 3, mets: 8},
+        G: {repetition: 20, name: " sec Arm Circles", duration: 1, mets: 2},
+        H: {repetition: 20, name: " Squats", duration: 1, mets: 6},
+        I: {repetition: 30, name: " Jumping Jacks", duration: 1, mets: 8},
+        J: {repetition: 15, name: " 15 Crunches", duration: 1, mets: 4},
+        K: {repetition: 10, name: " Pushups", duration: 1, mets: 4},
+        L: {repetition: 2,  name: " min Wall Sit", duration: 1, mets: 2},
+        M: {repetition: 20, name: " Burpees", duration: 3, mets: 8},
+        N: {repetition: 25, name: " Burpees", duration: 3, mets: 8},
+        O: {repetition: 40, name: " Jumping Jacks", duration: 1, mets: 8},
+        P: {repetition: 15, name: " sec Arm Circles", duration: 1, mets: 2},
+        Q: {repetition: 30, name: " Crunches", duration: 1, mets: 4},
+        R: {repetition: 15, name: " Pushups", duration: 1, mets: 4},
+        S: {repetition: 30, name: " Burpees", duration: 3, mets: 8},
+        T: {repetition: 15, name: " Squats", duration: 3, mets: 6 },
+        U: {repetition: 30, name: " sec Arm Circles", duration: 1, mets: 2},
+        V: {repetition: 3,  name: " min Wall Sit", duration: 1, mets: 2},
+        W: {repetition: 20, name: " Burpees", duration: 3, mets: 8},
+        X: {repetition: 60, name: " Jumping Jacks", duration: 1, mets: 8},
+        Y: {repetition: 10, name: " Crunches", duration: 1, mets: 4},
+        Z: {repetition: 20, name: " Pushups", duration: 1, mets: 4}
+    };
+}
 
 var askName = prompt("Please enter your name: ");
 var askWeight = prompt("Enter your weight: ");
+var askReps = prompt("How many times would you like to run through this routine?");
 var obj = letterFrequency(askName);
 
 var table = document.createElement("table");
@@ -54,40 +47,66 @@ Object.keys(obj).forEach(function(key){
     var tdValue = document.createElement("td");
     var textValue = document.createTextNode(obj[key]);
     tdValue.appendChild(textValue);
+
     tr.appendChild(tdKey);
     tr.appendChild(tdValue);
     table.appendChild(tr);
 });
-
 document.getElementById("letterTable").appendChild(table);
 
-var routineList = document.createElement("list");
-Object.keys(obj).forEach(function(key){
-
-});
-
-document.getElementById("routine").appendChild(routineList);
-
 function letterFrequency(text){
- var count = {};
- text.split('').filter(function(s) {
-   return s.match(/[a-z]/i);
- }).forEach(function(s) {
-   s = s.toUpperCase();
-   count[s] = count[s] ? count[s]+1 : 1;
- });
- return count;
+    var count = {};
+    text.split('').filter(function(s) {
+        return s.match(/[a-z]/i);
+    }).forEach(function(s) {
+        s = s.toUpperCase();
+        count[s] = count[s] ? count[s]+1 : 1;
+    });
+    return count;
 }
 
-function calculateBurnedCalories(weight, letter){
-    var letterObject = letter;
-    var mets = calculateMets(letterObject);
-    var burnedCalories = (mets * 3.5 * weight / 200) * (letterObject[1]/60)
-    return burnedCalories;
+function RoutineTable(name, weight, reps){
+    var exercises = new Exercises();
+    this.displayRoutine = [];
+    for (var i = 0; i < name.length; i++) {
+        var tableName = exercises.exerciseDict[name[i]]['name'];
+        var tableReps = exercises.exerciseDict[name[i]]['repetition'] * askReps;
+        var mets = exercises.exerciseDict[name[i]]['mets'];
+        var duration = exercises.exerciseDict[name[i]]['duration'];
+        var burnedCalories = mets * 0.0175 * weight * (duration/60.0);
+        this.displayRoutine.push({Exercises: tableName, Repetitions; tableReps});
+        document.getElementById("#caloriesBurned").innerHTML = burnedCalories;
+    }
 }
 
-function displayRoutine(){
-    var getCount = letterFrequency(askName);
+function createRoutineTable(content){
+    var rows = content.length;
+    var headers = Object.keys(content[0]);
+    var cols = headers.length;
+    var table = $("<table />").addClass("table table-stripped table-condensed");
+    for (var r = -1; r < rows; r++) {
+        var row = $("<tr />");
+        for (var c = 0; c < c; i++) {
+            if (r == -1) {
+                row.append($("<th/>").text(headers[c]));
+            } else{
+                row.append($("<td/>").text(content[r][headers[c]]));
+            }
+        }
+        table.append(row);
+    }
+    $("#routine").append(table);
+}
 
-    document.getElementById("routine");
+function GetTotals(table){
+    this.totals = table;
+    for (var i = 0; i < this.totals.length; i++) {
+        for (var j = 0; j < this.totals.length; j++) {
+            if (i !== j && this.totals[i]['Exercises'] === this.totals[j]['Exercises']) {
+                this.totals[i]["Repetitions"] === this.totals[j]["Repetitions"];
+                this.totals[i]['Calories'] += this.totals[j]['Calories'];
+                this.totals.splice(j, 1);
+            }
+        }
+    }
 }
